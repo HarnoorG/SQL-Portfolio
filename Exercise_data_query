@@ -1,0 +1,93 @@
+-- Previewing the data
+SELECT * FROM exercise.exercise_data LIMIT 10;
+
+-- Displaying all of the workout dates
+SELECT 
+	DISTINCT workout_id, 
+    workout_date
+FROM exercise.exercise_data 
+ORDER BY workout_id;
+
+-- Displaying all of the unique exercises
+SELECT 
+	DISTINCT exercise_id, 
+    exercise_name
+FROM exercise.exercise_data
+ORDER BY exercise_id;
+
+-- Selecting all of the variables and creating a new variable to estimate one rep max
+SELECT workout_id, 
+       TO_CHAR(workout_date, 'YYYY-MM-DD') AS workout_date, 
+       exercise_id,
+       exercise_name,
+       weight_in_lbs, 
+       total_reps, 
+       reps_per_set,
+       volume_in_lbs,
+       weight_in_lbs/(1.0278 - 0.0278 * reps_per_set) AS one_rep_max_est
+FROM exercise.exercise_data;
+
+-- Maximum weight lifted for each exercise
+SELECT 
+		MAX(weight_in_lbs) AS max_weight_in_lbs,
+        exercise_name
+FROM exercise.exercise_data
+GROUP BY exercise_name;
+
+Minimum weight lifted for each exercise
+SELECT 
+		MIN(weight_in_lbs) AS min_weight_in_lbs,
+        exercise_name
+FROM exercise.exercise_data
+GROUP BY exercise_name;
+
+-- Average weight lifted for each exercise
+SELECT 
+		AVG(weight_in_lbs) AS avg_weight_in_lbs,
+        exercise_name
+FROM exercise.exercise_data
+GROUP BY exercise_name;
+
+-- How many exercises are done per workout
+SELECT
+		COUNT(exercise_id) AS number_of_exercises,
+        TO_CHAR(workout_date, 'YYYY-MM-DD') AS workout_date
+FROM exercise.exercise_data
+GROUP BY workout_date
+ORDER BY workout_date;
+
+-- Average weight lifted per workout date
+SELECT
+		AVG(weight_in_lbs) as avg_weight_n_lbs,
+        TO_CHAR(workout_date, 'YYYY-MM-DD') AS workout_date
+FROM exercise.exercise_data
+GROUP BY workout_date
+ORDER BY workout_date;
+
+-- Volume of weight lifted per each workout date
+SELECT 
+		SUM(volume_in_lbs) AS total_volume,
+        TO_CHAR(workout_date, 'YYYY-MM-DD') AS workout_date 
+FROM exercise.exercise_data
+GROUP BY workout_date
+ORDER BY workout_date
+
+-- Average number of total reps for each workout date
+SELECT
+		avg(total_reps) AS avg_of_total_reps,
+        TO_CHAR(workout_Date, 'YYYY-MM-DD') AS workout_date
+FROM exercise.exercise_data
+GROUP BY workout_date
+ORDER BY workout_date;
+
+-- Average number of reps per set for each workout date
+SELECT
+		avg(reps_per_set) as avg_reps_per_set,
+        TO_CHAR(workout_Date, 'YYYY-MM-DD') as workout_date
+FROM exercise.exercise_data
+GROUP BY workout_date
+ORDER BY workout_date;
+
+
+
+
